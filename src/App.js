@@ -9,28 +9,28 @@ const Plot = createPlotlyComponent(Plotly);
 function App() {
   const [data,setData] = useState([])
   const [options, setOptions] = useState({
-    alpha: 0.1,
-    beta: 0.002,
-    gamma: 0.2,
-    delta: 0.0025,
-    start_X: 80,
-    start_Y: 20,
-    time: 100,
+    Альфа: 0.1,
+    Бета: 0.002,
+    Гамма: 0.2,
+    Дельта: 0.0025,
+    X: 80,
+    Y: 20,
+    Время: 100,
   })
   const splitOptions = {
-    alpha: 100,
-    beta: 10000,
-    gamma: 100,
-    delta: 10000,
-    start_X: 1,
-    start_Y: 1,
-    time: 1,
+    Альфа: 100,
+    Бета: 10000,
+    Гамма: 100,
+    Дельта: 10000,
+    X: 1,
+    Y: 1,
+    Время: 1,
   }
 
   const LodkaValterraFunc = (x,y,options) => {
-    const {alpha, beta, gamma, delta} = options;
-    const dx_dt = (alpha - beta * y) * x;
-    const dy_dt = (-gamma + delta * x) * y;
+    const {Альфа, Бета, Гамма, Дельта} = options;
+    const dx_dt = (Альфа - Бета * y) * x;
+    const dy_dt = (-Гамма + Дельта * x) * y;
     return [dx_dt,dy_dt]
   }
   useEffect(() => {
@@ -38,14 +38,14 @@ function App() {
       const payload = {
         dx: [],
         dy: [],
-        time: [],
+        Время: [],
       }
-      let x = options.start_X;
-      let y = options.start_Y;
-      for (let i = 0; i < options.time; i++) {
+      let x = options.X;
+      let y = options.Y;
+      for (let i = 0; i < options.Время; i++) {
         payload.dx.push(x);
         payload.dy.push(y);
-        payload.time.push(i);
+        payload.Время.push(i);
         const [dx,dy] = LodkaValterraFunc(x,y,options);
         x+=dx;
         y+=dy;
@@ -57,7 +57,7 @@ function App() {
   return (
     <div className="App">
       <div className="title">
-        Модель Лотки-Вольтерры
+        Математическое и компьютерное моделирование на примере модели "Хищник-Жертва" (Лотки-Вольтерры)
         <div className="btns">
           {Object.keys(options).map((param) => (
             <div className="btns_item">
@@ -65,30 +65,30 @@ function App() {
               <Slider 
                 value={options[param]*splitOptions[param]} 
                 onChange={(data)=>{setOptions(prev => ({...prev, [param]: data/splitOptions[param]}))}}
-                min={param === 'time' ? 10 : 0}
-                max={param === 'time' ? 200 : 100}
+                min={param === 'Время' ? 10 : 0}
+                max={param === 'Время' ? 200 : 100}
               />
               <div style={{minWidth: '60px'}}>{options[param]}</div>
             </div>
           ))}
         </div>
         <div className="desc">
-          Работу выполнил Горынин Иван. ИДМ-22-06.
+          Горынин Иван. ИДМ-22-06.
         </div>
       </div>
       <div className="graphics">
       <Plot
         data={[
           {
-            x: data.time,
+            x: data.Время,
             y: data.dx,
             type: 'scatter',
             mode: 'lines',
-            marker: {color: 'blue'},
+            marker: {color: 'green'},
             name: "Популяция жертв"
           },
           {
-            x: data.time,
+            x: data.Время,
             y: data.dy,
             type: 'scatter',
             mode: 'lines',
@@ -96,7 +96,7 @@ function App() {
             name: "Популяция хищников"
           },
         ]}
-        layout={ {width: 600, height: 400, title: 'График зависимости популяций друг от друга.'} }
+        layout={ {width: 600, height: 400, title: 'Зависимости популяций друг от друга.'} }
       />
       <Plot
         data={[
@@ -105,7 +105,7 @@ function App() {
             y: data.dy,
             type: 'scatter',
             mode: 'lines',
-            marker: {color: 'blue'},
+            marker: {color: 'orange'},
           },
         ]}
         layout={ {width: 600, height: 400, title: 'Фазовый портрет.'} }
